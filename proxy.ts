@@ -17,7 +17,7 @@ export function proxy(req: NextRequest) {
 
   return new NextResponse("Unauthorized", {
     status: 401,
-    headers: { "WWW-Authenticate": 'Basic realm="SF Housing Finder"' },
+    headers: { "WWW-Authenticate": 'Basic realm="Housing Finder"' },
   })
 }
 

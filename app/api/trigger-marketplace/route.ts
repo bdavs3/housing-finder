@@ -8,7 +8,7 @@ export async function POST() {
     }
 
     const startUrls = [
-      { url: "https://www.facebook.com/marketplace/sanfrancisco/propertyrentals" },
+      { url: "https://www.facebook.com/marketplace/113216112023878/propertyrentals" },
     ]
 
     const res = await fetch(

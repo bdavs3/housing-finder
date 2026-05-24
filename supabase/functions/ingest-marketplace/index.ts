@@ -113,7 +113,7 @@ async function ingestListings(supabase: ReturnType<typeof createClient>, items: 
     const postedAt = item.timestamp ?? item.postedAt ?? item.listedDate ?? parsePostedAt(details) ?? null
     const price = item.listingPrice?.amount ? (Math.round(parseFloat(item.listingPrice.amount)) || null) : null
 
-    // City-level location as a neighborhood hint (Claude will refine for SF listings)
+    // City-level location as a neighborhood hint
     const city = item.location?.reverse_geocode?.city ?? item.locationText?.text?.split(",")[0]?.trim() ?? null
     const state = item.location?.reverse_geocode?.state ?? null
     const neighborhood = city ? (state && state !== "CA" ? `${city}, ${state}` : city) : null
