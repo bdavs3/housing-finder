@@ -34,6 +34,20 @@ function isNew(createdAt: string) {
   return Date.now() - new Date(createdAt).getTime() < 24 * 60 * 60 * 1000
 }
 
+function isTargetMoveIn(date: string | null) {
+  if (!date) return false
+  const d = date.toLowerCase()
+  return d.includes("july 1") || d.includes("jul 1")
+}
+
+function MoveInDate({ date }: { date: string | null }) {
+  if (!date) return null
+  if (isTargetMoveIn(date)) {
+    return <span className="shrink-0 text-[10px] px-1.5 py-0.5 rounded border bg-green-900/50 text-green-300 border-green-800">{date}</span>
+  }
+  return <span className="shrink-0 text-sm text-muted-foreground">· {date}</span>
+}
+
 export function ListingCard({ listing, onToggleFavorited, onOpenLightbox }: Props) {
   const images = listing.image_urls ?? []
   const [showModal, setShowModal] = useState(false)
@@ -80,9 +94,7 @@ export function ListingCard({ listing, onToggleFavorited, onOpenLightbox }: Prop
             {listing.neighborhood && (
               <span className="hidden md:inline text-sm text-muted-foreground shrink-0">· {listing.neighborhood}</span>
             )}
-            {listing.move_in_date && (
-              <span className="hidden md:inline text-sm text-muted-foreground shrink-0">· {listing.move_in_date}</span>
-            )}
+            <span className="hidden md:inline"><MoveInDate date={listing.move_in_date} /></span>
             <span className="hidden md:inline ml-auto text-xs text-muted-foreground whitespace-nowrap shrink-0">
               {formatDateTime(listing.posted_at)}
             </span>
@@ -103,9 +115,7 @@ export function ListingCard({ listing, onToggleFavorited, onOpenLightbox }: Prop
                 ${listing.price_monthly.toLocaleString()}/mo
               </span>
             )}
-            {listing.move_in_date && (
-              <span className="text-xs shrink-0 text-muted-foreground">· {listing.move_in_date}</span>
-            )}
+            <MoveInDate date={listing.move_in_date} />
             <div className="ml-auto" />
             {listing.post_url && (
               <a href={listing.post_url} target="_blank" rel="noopener noreferrer" className="shrink-0 text-muted-foreground hover:text-foreground">
@@ -178,7 +188,7 @@ export function ListingCard({ listing, onToggleFavorited, onOpenLightbox }: Prop
                 </div>
                 <div className="flex items-center gap-2 mt-0.5 text-xs text-muted-foreground flex-wrap">
                   {listing.neighborhood && <span>{listing.neighborhood}</span>}
-                  {listing.move_in_date && <span>· {listing.move_in_date}</span>}
+                  <MoveInDate date={listing.move_in_date} />
                 </div>
               </div>
               <button onClick={() => setShowModal(false)} className="text-muted-foreground hover:text-foreground ml-4 shrink-0">
